@@ -1,0 +1,16 @@
+trigger triggeronuser on User (before insert,before update,before delete,after insert,after update,after delete) {
+if(Trigger.isAfter && Trigger.isInsert)
+{
+Set<Id> userIds = new Set<Id>();
+Profile lp=[SELECT Id,Name FROM Profile WHERE Name='Custom: Marketing Profile' LIMIT 1];
+for(User user:Trigger.new)
+{
+if(user.ProfileId == lp.Id)
+{
+userIds.add(user.Id);
+}
+}
+helperr.forperset(userIds);
+}
+
+}
